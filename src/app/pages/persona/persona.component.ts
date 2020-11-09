@@ -6,6 +6,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Persona } from 'src/app/_model/persona';
 import { PersonaService } from 'src/app/_service/persona.service';
 import { switchMap } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { PersonaDialogoComponent } from './persona-dialogo/persona-dialogo.component';
 
 @Component({
   selector: 'app-persona',
@@ -21,6 +23,7 @@ export class PersonaComponent implements OnInit {
 
   constructor(
     private personaService: PersonaService,
+    private dialog : MatDialog,
     private snackBar: MatSnackBar
   ) {}
 
@@ -46,7 +49,13 @@ export class PersonaComponent implements OnInit {
     this.dataSource.filter = value.trim().toLowerCase();
   }
 
-  abrirDialogo() {}
+  abrirDialogo(persona?: Persona) {
+    let data = persona != null ? persona : new Persona();
+    this.dialog.open(PersonaDialogoComponent, {
+      width: '250px',
+      data,
+    });
+  }
 
   eliminar(persona: Persona) {
     this.personaService
