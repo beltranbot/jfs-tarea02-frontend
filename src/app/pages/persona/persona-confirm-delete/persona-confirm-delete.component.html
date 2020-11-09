@@ -1,0 +1,6 @@
+<div>
+    <p>Por favor,  confirme que desea <strong><span style="color:red;">eliminar</span></strong> el siguiente registro:</p>
+    <p><strong>Persona: </strong> <i>{{persona.nombres}} {{persona.apellidos}}</i></p>
+</div>
+<button mat-raised-button color="primary" (click)="confirmar()">Aceptar</button>
+<button mat-raised-button color="accent" (click)="cerrar()">Cancelar</button>

@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { PersonaComponent } from './pages/persona/persona.component';
 import { PersonaDialogoComponent } from './pages/persona/persona-dialogo/persona-dialogo.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PersonaConfirmDeleteComponent } from './pages/persona/persona-confirm-delete/persona-confirm-delete.component';
 
 
 
@@ -16,7 +17,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   declarations: [
     AppComponent,
     PersonaComponent,
-    PersonaDialogoComponent
+    PersonaDialogoComponent,
+    PersonaConfirmDeleteComponent
   ],
   imports: [
     BrowserModule,

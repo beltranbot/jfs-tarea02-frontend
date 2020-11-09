@@ -5,9 +5,9 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Persona } from 'src/app/_model/persona';
 import { PersonaService } from 'src/app/_service/persona.service';
-import { switchMap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { PersonaDialogoComponent } from './persona-dialogo/persona-dialogo.component';
+import { PersonaConfirmDeleteComponent } from './persona-confirm-delete/persona-confirm-delete.component';
 
 @Component({
   selector: 'app-persona',
@@ -23,7 +23,7 @@ export class PersonaComponent implements OnInit {
 
   constructor(
     private personaService: PersonaService,
-    private dialog : MatDialog,
+    private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {}
 
@@ -58,16 +58,9 @@ export class PersonaComponent implements OnInit {
   }
 
   eliminar(persona: Persona) {
-    this.personaService
-      .eliminar(persona.idPersona)
-      .pipe(
-        switchMap(() => {
-          return this.personaService.listar();
-        })
-      )
-      .subscribe((data) => {
-        this.personaService.setPersonaCambio(data);
-        this.personaService.setMensajeCambio('SE ELIMINO');
-      });
+    this.dialog.open(PersonaConfirmDeleteComponent, {
+      width: '250px',
+      data: persona,
+    });
   }
 }
