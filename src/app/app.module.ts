@@ -10,15 +10,15 @@ import { PersonaComponent } from './pages/persona/persona.component';
 import { PersonaDialogoComponent } from './pages/persona/persona-dialogo/persona-dialogo.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PersonaConfirmDeleteComponent } from './pages/persona/persona-confirm-delete/persona-confirm-delete.component';
-
-
+import { ProductoComponent } from './page/producto/producto.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PersonaComponent,
     PersonaDialogoComponent,
-    PersonaConfirmDeleteComponent
+    PersonaConfirmDeleteComponent,
+    ProductoComponent,
   ],
   imports: [
     BrowserModule,
@@ -30,6 +30,6 @@ import { PersonaConfirmDeleteComponent } from './pages/persona/persona-confirm-d
     FormsModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
