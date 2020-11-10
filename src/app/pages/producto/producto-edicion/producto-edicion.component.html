@@ -1,0 +1,31 @@
+<form class="example-container" [formGroup]="form" (ngSubmit)="operar()" #productoForm="ngForm">
+
+    <div [hidden]="true">
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="ID" required formControlName="idProducto">
+        </mat-form-field>
+    </div>
+
+    <mat-form-field class="example-full-width">
+        <input matInput placeholder="Nombre Producto" required formControlName="nombre">
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+        <input matInput placeholder="Nombre Marca" required formControlName="marca">
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+        <input type="number" step=".01" matInput placeholder="Precio Unidad" required formControlName="precioUnidad">
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="productoForm.invalid">
+        <mat-icon>done</mat-icon>
+        <span>Aceptar</span>
+    </button>
+    <button mat-raised-button color="accent" routerLink='/producto' type="button">
+        <mat-icon>close</mat-icon>
+        <span>Cancelar</span>
+    </button>
+</form>
+
+<br />

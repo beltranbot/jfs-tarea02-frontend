@@ -11,6 +11,7 @@ import { PersonaDialogoComponent } from './pages/persona/persona-dialogo/persona
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PersonaConfirmDeleteComponent } from './pages/persona/persona-confirm-delete/persona-confirm-delete.component';
 import { ProductoComponent } from './page/producto/producto.component';
+import { ProductoEdicionComponent } from './pages/producto/producto-edicion/producto-edicion.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { ProductoComponent } from './page/producto/producto.component';
     PersonaDialogoComponent,
     PersonaConfirmDeleteComponent,
     ProductoComponent,
+    ProductoEdicionComponent,
   ],
   imports: [
     BrowserModule,
