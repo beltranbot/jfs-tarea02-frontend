@@ -13,6 +13,7 @@ import { PersonaConfirmDeleteComponent } from './pages/persona/persona-confirm-d
 import { ProductoComponent } from './page/producto/producto.component';
 import { ProductoEdicionComponent } from './pages/producto/producto-edicion/producto-edicion.component';
 import { ProductoConfirmDeleteComponent } from './pages/producto/producto-confirm-delete/producto-confirm-delete.component';
+import { VentaComponent } from './page/venta/venta.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { ProductoConfirmDeleteComponent } from './pages/producto/producto-confir
     ProductoComponent,
     ProductoEdicionComponent,
     ProductoConfirmDeleteComponent,
+    VentaComponent,
   ],
   imports: [
     BrowserModule,

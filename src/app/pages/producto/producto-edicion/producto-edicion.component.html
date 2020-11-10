@@ -15,7 +15,7 @@
     </mat-form-field>
 
     <mat-form-field class="example-full-width">
-        <input type="number" step=".01" matInput placeholder="Precio Unidad" required formControlName="precioUnidad">
+        <input type="number" min=".01" step=".01" matInput placeholder="Precio Unidad" required formControlName="precioUnidad">
     </mat-form-field>
 
     <button mat-raised-button color="primary" type="submit" [disabled]="productoForm.invalid">

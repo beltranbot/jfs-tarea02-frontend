@@ -1,0 +1,22 @@
+<mat-toolbar>Registro de Venta</mat-toolbar>
+
+<div class="example-container">
+    <mat-form-field>
+        <input matInput [matDatepicker]="picker" placeholder="Escoge una fecha" [max]="maxFecha"
+            [(ngModel)]="fechaSeleccionada" [max]="maxFecha">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-select placeholder="Selecciona Persona" [(value)]="idPersonaSeleccionado">
+            <mat-option *ngFor="let p of (personas$) | async" [value]="p.idPersona">
+                {{ p.nombres }} {{ p.apellidos }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="aceptar()" [disabled]="estadoBotonRegistrar()">
+        Registrar
+    </button>
+</div>
