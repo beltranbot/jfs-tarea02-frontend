@@ -30,7 +30,7 @@
 
             <ng-container matColumnDef="precioUnidad">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Precio Unidad </mat-header-cell>
-                <mat-cell *matCellDef="let row"> {{row.precioUnidad | number: '1.2-2' | currency:'USD':true }} </mat-cell>
+                <mat-cell *matCellDef="let row"> {{row.precioUnidad | number: '1.2-2' | currency:'USD':'symbol' }} </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="acciones">

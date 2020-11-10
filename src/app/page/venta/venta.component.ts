@@ -8,6 +8,9 @@ import { DetalleVenta } from 'src/app/_model/detalleVenta';
 import { MatTableDataSource } from '@angular/material/table';
 import { Producto } from 'src/app/_model/producto';
 import { ProductoService } from 'src/app/_service/producto.service';
+import { CloseScrollStrategy } from '@angular/cdk/overlay';
+import { Venta } from 'src/app/_model/venta';
+import { VentaService } from 'src/app/_service/venta.service';
 
 @Component({
   selector: 'app-venta',
@@ -23,23 +26,27 @@ export class VentaComponent implements OnInit {
   maxFecha: Date = new Date();
   fechaSeleccionada: Date = new Date();
 
-  displayedColumns = ['idProducto', 'precioUnidad', 'cantidad', 'subtotal'];
-  detalleVentas : DetalleVenta[];
+  displayedColumns = [
+    'idProducto',
+    'precioUnidad',
+    'cantidad',
+    'subtotal',
+    'acciones',
+  ];
+  detalleVentas: DetalleVenta[] = [];
   dataSource: MatTableDataSource<DetalleVenta>;
 
   constructor(
     private personaService: PersonaService,
     private productoService: ProductoService,
+    private VentaService: VentaService,
     private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
     this.listarPersonas();
     this.listarProductos();
-    let detalleVenta = new DetalleVenta();
-    detalleVenta.producto = new Producto();
-    detalleVenta.cantidad = 1;
-    this.dataSource = new MatTableDataSource([detalleVenta]);
+    this.adicionarFila();
   }
 
   listarPersonas() {
@@ -50,81 +57,37 @@ export class VentaComponent implements OnInit {
     this.productos$ = this.productoService.listar();
   }
 
-  agregar() {
-    // if (this.diagnostico != null && this.tratamiento != null) {
-    //   let det = new DetalleVenta();
-    //   det.diagnostico = this.diagnostico;
-    //   det.tratamiento = this.tratamiento;
-    //   this.detalleVenta.push(det);
-    //   this.diagnostico = null;
-    //   this.tratamiento = null;
-    // }
-  }
+  disableRegistrar() {
+    if (!this.idPersonaSeleccionado) return true;
 
-  // removerDiagnostico(index: number) {
-  //   this.detalleVenta.splice(index, 1);
-  // }
+    let productoIds = {};
+    for (let i = 0; i < this.detalleVentas.length; i++) {
+      const detalle = this.detalleVentas[i];
 
-  // agregarExamen() {
-  //   if (this.idExamenSeleccionado > 0) {
-  //     let cont = 0;
-  //     for (let i = 0; i < this.examenesSeleccionados.length; i++) {
-  //       let examen = this.examenesSeleccionados[i];
-  //       if (examen.idExamen === this.idExamenSeleccionado) {
-  //         cont++;
-  //         break;
-  //       }
-  //     }
+      if (Object.keys(detalle.producto).length === 0) return true;
+      if (detalle.producto.idProducto in productoIds) return true;
+      productoIds[detalle.producto.idProducto] = true;
+    }
 
-  //     if (cont > 0) {
-  //       let mensaje = 'El examen se encuentra en la lista';
-  //       this.snackBar.open(mensaje, 'AVISO', { duration: 2000 });
-  //     } else {
-  //       this.examenService
-  //         .listarPorId(this.idExamenSeleccionado)
-  //         .subscribe((data) => {
-  //           this.examenesSeleccionados.push(data);
-  //         });
-  //     }
-  //   }
-  // }
-
-  // removerExamen(index: number) {
-  //   this.examenesSeleccionados.splice(index, 1);
-  // }
-
-  estadoBotonRegistrar() {
-    return true;
+    return false;
   }
 
   aceptar() {
-    // let medico = new Medico();
-    // medico.idMedico = this.idMedicoSeleccionado;
-    // let especialidad = new Especialidad();
-    // especialidad.idEspecialidad = this.idEspecialidadSeleccionado;
-    // let paciente = new Paciente();
-    // paciente.idPaciente = this.idPacienteSeleccionado;
-    // let venta = new Venta();
-    // venta.medico = medico;
-    // venta.especialidad = especialidad;
-    // venta.paciente = paciente;
-    // venta.numConsultorio = 'C1';
-    // venta.fecha = moment(this.fechaSeleccionada).format(
-    //   'YYYY-MM-DDTHH:mm:ss'
-    // );
-    // venta.detalleVenta = this.detalleVenta;
-    // let ventaListaExamenDTO = new VentaListaExamenDTO();
-    // ventaListaExamenDTO.venta = venta;
-    // ventaListaExamenDTO.lstExamen = this.examenesSeleccionados;
-    // console.log(ventaListaExamenDTO);
-    // this.ventaService
-    //   .registrarTransaccion(ventaListaExamenDTO)
-    //   .subscribe(() => {
-    //     this.snackBar.open('Se registró', 'Aviso', { duration: 2000 });
-    //     setTimeout(() => {
-    //       this.limpiarControles();
-    //     }, 2000);
-    //   });
+    let venta = new Venta();
+    let persona = new Persona();
+    persona.idPersona = this.idPersonaSeleccionado;
+    venta.persona = persona;
+    venta.fecha = moment(this.fechaSeleccionada).format('YYYY-MM-DDTHH:mm:ss');
+    venta.detalleVenta = this.detalleVentas;
+
+    this.VentaService
+      .registrar(venta)
+      .subscribe(() => {
+        this.snackBar.open('Se registró', 'Aviso', { duration: 2000 });
+        setTimeout(() => {
+          this.limpiarControles();
+        }, 2000);
+      });
   }
 
   limpiarControles() {
@@ -134,5 +97,22 @@ export class VentaComponent implements OnInit {
     this.fechaSeleccionada.setMinutes(0);
     this.fechaSeleccionada.setSeconds(0);
     this.fechaSeleccionada.setMilliseconds(0);
+    this.detalleVentas = [];
+    this.dataSource = new MatTableDataSource(this.detalleVentas);
+  }
+
+  adicionarFila() {
+    let detalleVenta = new DetalleVenta();
+    detalleVenta.producto = new Producto();
+    detalleVenta.cantidad = 1;
+    this.detalleVentas.push(detalleVenta);
+    this.dataSource = new MatTableDataSource(this.detalleVentas);
+  }
+
+  eliminarFila(index: number) {
+    if (this.detalleVentas.length > 0) {
+      this.detalleVentas.splice(index, 1);
+      this.dataSource = new MatTableDataSource(this.detalleVentas);
+    }
   }
 }
