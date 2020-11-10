@@ -9,12 +9,58 @@
     </mat-form-field>
 
     <mat-form-field>
-        <mat-select placeholder="Selecciona Persona" [(value)]="idPersonaSeleccionado">
+        <mat-select matInput placeholder="Selecciona Persona" [(value)]="idPersonaSeleccionado">
             <mat-option *ngFor="let p of (personas$) | async" [value]="p.idPersona">
                 {{ p.nombres }} {{ p.apellidos }}
             </mat-option>
         </mat-select>
     </mat-form-field>
+
+    <mat-table [dataSource]="dataSource">
+
+        <ng-container matColumnDef="idProducto">
+            <mat-header-cell *matHeaderCellDef> IDPRODUCTO </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <mat-form-field>
+                    <mat-select matInput placeholder="Selecciona producto" [(value)]="row.producto">
+                        <mat-option *ngFor="let p of (productos$) | async" [value]="p">
+                            {{ p.idProducto }} {{ p.nombre}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="precioUnidad">
+            <mat-header-cell *matHeaderCellDef> PRECIO UNIDAD </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                {{row.producto.precioUnidad | number: '1.2-2' | currency:'USD':'symbol'}}
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="cantidad">
+            <mat-header-cell *matHeaderCellDef> CANTIDAD </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <mat-form-field>
+                    <input matInput type="number" min="1" [(ngModel)]="row['cantidad']">
+                </mat-form-field>
+            </mat-cell>
+        </ng-container>
+
+
+        <ng-container matColumnDef="subtotal">
+            <mat-header-cell *matHeaderCellDef> PRECIO UNIDAD </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                {{row.calcularSubtotal() | number: '1.2-2' | currency:'USD':'symbol'}}
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;">
+        </mat-row>
+    </mat-table>
+
+    <mat-divider></mat-divider>
 
     <button mat-raised-button color="primary" (click)="aceptar()" [disabled]="estadoBotonRegistrar()">
         Registrar

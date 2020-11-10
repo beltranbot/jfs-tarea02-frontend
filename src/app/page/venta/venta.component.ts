@@ -4,6 +4,10 @@ import { Observable } from 'rxjs';
 import * as moment from 'moment';
 import { PersonaService } from 'src/app/_service/persona.service';
 import { Persona } from 'src/app/_model/persona';
+import { DetalleVenta } from 'src/app/_model/detalleVenta';
+import { MatTableDataSource } from '@angular/material/table';
+import { Producto } from 'src/app/_model/producto';
+import { ProductoService } from 'src/app/_service/producto.service';
 
 @Component({
   selector: 'app-venta',
@@ -12,22 +16,38 @@ import { Persona } from 'src/app/_model/persona';
 })
 export class VentaComponent implements OnInit {
   personas$: Observable<Persona[]>;
+  productos$: Observable<Producto[]>;
   idPersonaSeleccionado: number;
+  idDetalleSeleccionado: number;
 
   maxFecha: Date = new Date();
   fechaSeleccionada: Date = new Date();
 
+  displayedColumns = ['idProducto', 'precioUnidad', 'cantidad', 'subtotal'];
+  detalleVentas : DetalleVenta[];
+  dataSource: MatTableDataSource<DetalleVenta>;
+
   constructor(
     private personaService: PersonaService,
+    private productoService: ProductoService,
     private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
     this.listarPersonas();
+    this.listarProductos();
+    let detalleVenta = new DetalleVenta();
+    detalleVenta.producto = new Producto();
+    detalleVenta.cantidad = 1;
+    this.dataSource = new MatTableDataSource([detalleVenta]);
   }
 
   listarPersonas() {
     this.personas$ = this.personaService.listar();
+  }
+
+  listarProductos() {
+    this.productos$ = this.productoService.listar();
   }
 
   agregar() {
@@ -74,7 +94,7 @@ export class VentaComponent implements OnInit {
   // }
 
   estadoBotonRegistrar() {
-    return false;
+    return true;
   }
 
   aceptar() {

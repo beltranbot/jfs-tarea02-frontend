@@ -29,18 +29,23 @@
     <mat-sidenav-container class="example-sidenav-container">
         <mat-sidenav #sidenav style="width: 200px" mode="push">
             <img src="assets/mitocode.png" width="218" style="margin-left:20 px">
-            <button mat-menu-item (click)="sidenav.toggle()" routerLink="/buscar" style="cursor: pointer">
+            <button mat-menu-item (click)="sidenav.toggle()" routerLink="/buscar">
                 <span>Buscar</span>
             </button>
             <mat-divider></mat-divider>
-            <button mat-menu-item (click)="sidenav.toggle()" routerLink="/persona" tyle="cursor:pointer">
+            <button mat-menu-item (click)="sidenav.toggle()" routerLink="/persona">
                 <mat-icon>accessibility</mat-icon>
                 <span>Persona</span>
             </button>
             <mat-divider></mat-divider>
-            <button mat-menu-item (click)="sidenav.toggle()" routerLink="/producto" tyle="cursor:pointer">
+            <button mat-menu-item (click)="sidenav.toggle()" routerLink="/producto">
                 <mat-icon>assessment</mat-icon>
                 <span>Producto</span>
+            </button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item (click)="sidenav.toggle()" routerLink="/venta">
+                <mat-icon>assessment</mat-icon>
+                <span>Registrar Venta</span>
             </button>
         </mat-sidenav>
 
