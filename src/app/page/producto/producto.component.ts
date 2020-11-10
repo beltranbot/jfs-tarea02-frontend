@@ -7,6 +7,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Producto } from './../../_model/producto';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ProductoConfirmDeleteComponent } from 'src/app/pages/producto/producto-confirm-delete/producto-confirm-delete.component';
 
 @Component({
   selector: 'app-producto',
@@ -27,6 +29,7 @@ export class ProductoComponent implements OnInit {
 
   constructor(
     private productoService: ProductoService,
+    private dialog: MatDialog,
     private snackBar: MatSnackBar,
     public route: ActivatedRoute
   ) {}
@@ -56,16 +59,9 @@ export class ProductoComponent implements OnInit {
   }
 
   eliminar(producto: Producto) {
-    this.productoService
-      .eliminar(producto.idProducto)
-      .pipe(
-        switchMap(() => {
-          return this.productoService.listar();
-        })
-      )
-      .subscribe((data) => {
-        this.productoService.setProductoCambio(data);
-        this.productoService.setMensajeCambio('Se eliminó');
-      });
+    this.dialog.open(ProductoConfirmDeleteComponent, {
+      width: '250px',
+      data: producto,
+    });
   }
 }

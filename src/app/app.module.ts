@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PersonaConfirmDeleteComponent } from './pages/persona/persona-confirm-delete/persona-confirm-delete.component';
 import { ProductoComponent } from './page/producto/producto.component';
 import { ProductoEdicionComponent } from './pages/producto/producto-edicion/producto-edicion.component';
+import { ProductoConfirmDeleteComponent } from './pages/producto/producto-confirm-delete/producto-confirm-delete.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { ProductoEdicionComponent } from './pages/producto/producto-edicion/prod
     PersonaConfirmDeleteComponent,
     ProductoComponent,
     ProductoEdicionComponent,
+    ProductoConfirmDeleteComponent,
   ],
   imports: [
     BrowserModule,

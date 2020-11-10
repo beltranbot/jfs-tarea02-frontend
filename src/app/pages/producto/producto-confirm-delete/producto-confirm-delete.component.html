@@ -1,0 +1,8 @@
+<div>
+    <p>Por favor, confirme que desea <strong><span style="color:red;">eliminar</span></strong> el siguiente registro:
+    </p>
+    <p><strong>Producto: </strong> <i>{{producto.nombre}} {{producto.marca}}
+            {{ producto.precioUnidad | number: '1.2-2' | currency:'USD':true }}</i></p>
+</div>
+<button mat-raised-button color="primary" (click)="confirmar()">Aceptar</button>
+<button mat-raised-button color="accent" (click)="cerrar()">Cancelar</button>
